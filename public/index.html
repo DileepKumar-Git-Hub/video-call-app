@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NexMeet — Video Calls Reimagined</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+</head>
+<body class="landing-body">
+
+  <!-- Animated Background -->
+  <div class="bg-animation">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <div class="logo-icon"><i class="fas fa-video"></i></div>
+      <span class="brand-name">NexMeet</span>
+    </div>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how-it-works">How it works</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <main class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <i class="fas fa-bolt"></i>
+        <span>Real-time • Secure • Free</span>
+      </div>
+      <h1 class="hero-title">
+        Connect, Share &<br/>
+        <span class="gradient-text">Experience Together</span>
+      </h1>
+      <p class="hero-subtitle">
+        HD video calls with screen sharing, YouTube co-watching, and session recording — all in one place.
+      </p>
+
+      <!-- Action Cards -->
+      <div class="action-container">
+        <div class="action-card create-card">
+          <div class="card-header">
+            <i class="fas fa-plus-circle"></i>
+            <h3>Start a Meeting</h3>
+          </div>
+          <p>Create a new room and invite your friends</p>
+          <div class="input-group">
+            <input
+              type="text"
+              id="createUserName"
+              placeholder="Your display name"
+              class="text-input"
+              maxlength="20"
+            />
+          </div>
+          <button class="btn btn-primary" id="createRoomBtn">
+            <i class="fas fa-video"></i>
+            New Meeting
+          </button>
+        </div>
+
+        <div class="divider-vertical">
+          <span>or</span>
+        </div>
+
+        <div class="action-card join-card">
+          <div class="card-header">
+            <i class="fas fa-sign-in-alt"></i>
+            <h3>Join a Meeting</h3>
+          </div>
+          <p>Enter a room code shared with you</p>
+          <div class="input-group">
+            <input
+              type="text"
+              id="joinUserName"
+              placeholder="Your display name"
+              class="text-input"
+              maxlength="20"
+            />
+            <input
+              type="text"
+              id="roomCodeInput"
+              placeholder="Room Code (e.g. A1B2C3D4)"
+              class="text-input"
+              maxlength="8"
+              style="text-transform:uppercase"
+            />
+          </div>
+          <button class="btn btn-secondary" id="joinRoomBtn">
+            <i class="fas fa-arrow-right"></i>
+            Join Meeting
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features Preview -->
+    <div class="features-strip" id="features">
+      <div class="feature-item">
+        <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+        <div>
+          <h4>End-to-End WebRTC</h4>
+          <p>Peer-to-peer encryption</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon"><i class="fab fa-youtube"></i></div>
+        <div>
+          <h4>YouTube Co-Watch</h4>
+          <p>Sync playback with everyone</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon"><i class="fas fa-record-vinyl"></i></div>
+        <div>
+          <h4>Session Recording</h4>
+          <p>Save calls locally</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon"><i class="fas fa-desktop"></i></div>
+        <div>
+          <h4>Screen Share</h4>
+          <p>Share your entire screen</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="landing.js"></script>
+</body>
+</html>

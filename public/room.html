@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NexMeet — In Meeting</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+</head>
+<body class="room-body">
+
+  <!-- Top Bar -->
+  <header class="room-header">
+    <div class="room-brand">
+      <div class="logo-icon-sm"><i class="fas fa-video"></i></div>
+      <span>NexMeet</span>
+    </div>
+    <div class="room-info">
+      <div class="room-code-display">
+        <i class="fas fa-door-open"></i>
+        <span id="roomCodeDisplay">Loading...</span>
+        <button class="copy-btn" id="copyRoomCode" title="Copy room code">
+          <i class="fas fa-copy"></i>
+        </button>
+      </div>
+      <div class="recording-indicator" id="recordingIndicator" style="display:none">
+        <span class="rec-dot"></span>
+        <span>REC</span>
+      </div>
+      <div class="timer" id="callTimer">00:00</div>
+    </div>
+    <div class="room-header-right">
+      <span id="participantCount" class="participant-count">
+        <i class="fas fa-users"></i> 1
+      </span>
+    </div>
+  </header>
+
+  <!-- Main Layout -->
+  <div class="room-layout" id="roomLayout">
+
+    <!-- Video Grid -->
+    <div class="video-section" id="videoSection">
+      <div class="video-grid" id="videoGrid">
+        <!-- Local video tile -->
+        <div class="video-tile local-tile" id="localTile">
+          <video id="localVideo" autoplay muted playsinline></video>
+          <div class="video-overlay">
+            <div class="user-label">
+              <i class="fas fa-user-circle"></i>
+              <span id="localUserLabel">You</span>
+            </div>
+            <div class="tile-indicators">
+              <span class="indicator" id="localMicIndicator" title="Mic on">
+                <i class="fas fa-microphone"></i>
+              </span>
+            </div>
+          </div>
+          <div class="no-video-placeholder" id="localNoVideo" style="display:none">
+            <div class="avatar-placeholder" id="localAvatar">Y</div>
+            <span id="localAvatarName">You</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- YouTube Panel (hidden by default) -->
+      <div class="youtube-panel" id="youtubePanel" style="display:none">
+        <div class="yt-panel-header">
+          <div class="yt-title">
+            <i class="fab fa-youtube" style="color:#ff0000"></i>
+            <span>YouTube Co-Watch</span>
+          </div>
+          <div class="yt-controls-top">
+            <input
+              type="text"
+              id="ytUrlInput"
+              placeholder="Paste YouTube URL..."
+              class="yt-url-input"
+            />
+            <button class="btn-yt-load" id="ytLoadBtn">
+              <i class="fas fa-play"></i> Load
+            </button>
+            <button class="btn-yt-close" id="ytCloseBtn">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <div class="yt-embed-container">
+          <div id="ytPlayer"></div>
+          <div class="yt-placeholder" id="ytPlaceholder">
+            <i class="fab fa-youtube"></i>
+            <p>Paste a YouTube URL above and click Load to start co-watching</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Sidebar -->
+    <div class="sidebar" id="sidebar">
+
+      <!-- Sidebar Tabs -->
+      <div class="sidebar-tabs">
+        <button class="sidebar-tab active" data-tab="chat" id="chatTab">
+          <i class="fas fa-comment-dots"></i>
+          <span>Chat</span>
+          <div class="unread-badge" id="unreadBadge" style="display:none">0</div>
+        </button>
+        <button class="sidebar-tab" data-tab="participants" id="participantsTab">
+          <i class="fas fa-users"></i>
+          <span>People</span>
+        </button>
+      </div>
+
+      <!-- Chat Panel -->
+      <div class="sidebar-content active" id="chatPanel">
+        <div class="chat-messages" id="chatMessages">
+          <div class="chat-welcome">
+            <i class="fas fa-comment-dots"></i>
+            <p>Chat is private to this session</p>
+          </div>
+        </div>
+        <div class="chat-input-area">
+          <input
+            type="text"
+            id="chatInput"
+            placeholder="Send a message..."
+            class="chat-input"
+            maxlength="300"
+          />
+          <button class="chat-send-btn" id="chatSendBtn">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Participants Panel -->
+      <div class="sidebar-content" id="participantsPanel">
+        <div class="participants-list" id="participantsList">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Control Bar -->
+  <footer class="control-bar">
+    <div class="controls-left">
+      <button class="ctrl-btn" id="toggleAudioBtn" title="Toggle Microphone">
+        <i class="fas fa-microphone"></i>
+        <span>Mute</span>
+      </button>
+      <button class="ctrl-btn" id="toggleVideoBtn" title="Toggle Camera">
+        <i class="fas fa-video"></i>
+        <span>Stop Video</span>
+      </button>
+    </div>
+
+    <div class="controls-center">
+      <button class="ctrl-btn" id="screenShareBtn" title="Share Screen">
+        <i class="fas fa-desktop"></i>
+        <span>Share Screen</span>
+      </button>
+      <button class="ctrl-btn" id="youtubePanelBtn" title="YouTube Co-Watch">
+        <i class="fab fa-youtube"></i>
+        <span>YouTube</span>
+      </button>
+      <button class="ctrl-btn" id="recordBtn" title="Record Session">
+        <i class="fas fa-record-vinyl"></i>
+        <span>Record</span>
+      </button>
+      <button class="ctrl-btn" id="raiseHandBtn" title="Raise Hand">
+        <i class="fas fa-hand-paper"></i>
+        <span>Raise Hand</span>
+      </button>
+    </div>
+
+    <div class="controls-right">
+      <button class="ctrl-btn" id="sidebarToggleBtn" title="Toggle Sidebar">
+        <i class="fas fa-comments"></i>
+        <span>Chat</span>
+      </button>
+      <button class="ctrl-btn ctrl-btn-danger" id="leaveBtn" title="Leave Meeting">
+        <i class="fas fa-phone-slash"></i>
+        <span>Leave</span>
+      </button>
+    </div>
+  </footer>
+
+  <!-- Modals & Overlays -->
+  <div class="modal-overlay" id="modalOverlay" style="display:none">
+    <div class="modal" id="leaveModal">
+      <div class="modal-icon"><i class="fas fa-phone-slash"></i></div>
+      <h3>Leave Meeting?</h3>
+      <p>Are you sure you want to leave this meeting?</p>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="cancelLeave">Stay</button>
+        <button class="btn btn-danger" id="confirmLeave">Leave</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Hand Raise Notification -->
+  <div class="raise-hand-popup" id="raiseHandPopup" style="display:none">
+    <i class="fas fa-hand-paper"></i>
+    <span id="raiseHandText"></span>
+  </div>
+
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="room.js">
+
+    
+  </script>
+</body>
+</html>
