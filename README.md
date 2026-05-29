@@ -145,7 +145,7 @@ Screen sharing uses browser's getDisplayMedia() API
 
 ## 🌐 Live Demo
 
-🔗 **[Click here to try the live app](YOUR_LIVE_DEMO_LINK)**
+🔗 **[Click here to try the live app](https://live-video-call-app.vercel.app/)**
 
 > Works best on Chrome or Firefox. Allow camera & microphone permissions when prompted.
 
